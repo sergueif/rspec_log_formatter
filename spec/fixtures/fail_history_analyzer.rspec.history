@@ -1,0 +1,70 @@
+	2014-01-21 16:08:25 -0800	passed	description0	./spec/m1k1_spec.rb
+	2014-01-21 16:08:25 -0800	passed	description1	./spec/m1k1_spec.rb
+	2014-01-21 16:08:25 -0800	passed	description2	./spec/m1k1_spec.rb
+	2014-01-21 16:08:25 -0800	passed	description3	./spec/m1k1_spec.rb
+	2014-01-21 16:08:25 -0800	passed	description4	./spec/m1k1_spec.rb
+	2014-01-21 16:08:25 -0800	passed	description5	./spec/m1k1_spec.rb
+	2014-01-21 16:08:25 -0800	passed	description6	./spec/m1k1_spec.rb
+	2014-01-21 16:08:25 -0800	passed	description7	./spec/m1k1_spec.rb
+	2014-01-21 16:08:25 -0800	passed	description8	./spec/m1k1_spec.rb
+	2014-01-21 16:08:25 -0800	passed	description9	./spec/m1k1_spec.rb
+	2014-01-22 16:08:25 -0800	failed	description0	./spec/m1k1_spec.rb	msg10	ec10
+	2014-01-22 16:08:25 -0800	passed	description1	./spec/m1k1_spec.rb
+	2014-01-22 16:08:25 -0800	passed	description2	./spec/m1k1_spec.rb
+	2014-01-22 16:08:25 -0800	passed	description3	./spec/m1k1_spec.rb
+	2014-01-22 16:08:25 -0800	passed	description4	./spec/m1k1_spec.rb
+	2014-01-22 16:08:25 -0800	passed	description5	./spec/m1k1_spec.rb
+	2014-01-22 16:08:25 -0800	passed	description6	./spec/m1k1_spec.rb
+	2014-01-22 16:08:25 -0800	passed	description7	./spec/m1k1_spec.rb
+	2014-01-22 16:08:25 -0800	passed	description8	./spec/m1k1_spec.rb
+	2014-01-22 16:08:25 -0800	passed	description9	./spec/m1k1_spec.rb
+	2014-01-23 16:08:25 -0800	failed	description0	./spec/m1k1_spec.rb	msg20	ec20
+	2014-01-23 16:08:25 -0800	failed	description1	./spec/m1k1_spec.rb	msg21	ec21
+	2014-01-23 16:08:25 -0800	passed	description2	./spec/m1k1_spec.rb
+	2014-01-23 16:08:25 -0800	passed	description3	./spec/m1k1_spec.rb
+	2014-01-23 16:08:25 -0800	passed	description4	./spec/m1k1_spec.rb
+	2014-01-23 16:08:25 -0800	passed	description5	./spec/m1k1_spec.rb
+	2014-01-23 16:08:25 -0800	passed	description6	./spec/m1k1_spec.rb
+	2014-01-23 16:08:25 -0800	passed	description7	./spec/m1k1_spec.rb
+	2014-01-23 16:08:25 -0800	passed	description8	./spec/m1k1_spec.rb
+	2014-01-23 16:08:25 -0800	passed	description9	./spec/m1k1_spec.rb
+	2014-01-24 16:08:25 -0800	failed	description0	./spec/m1k1_spec.rb	msg30	ec30
+	2014-01-24 16:08:25 -0800	failed	description1	./spec/m1k1_spec.rb	msg31	ec31
+	2014-01-24 16:08:25 -0800	failed	description2	./spec/m1k1_spec.rb	msg32	ec32
+	2014-01-24 16:08:25 -0800	passed	description3	./spec/m1k1_spec.rb
+	2014-01-24 16:08:25 -0800	passed	description4	./spec/m1k1_spec.rb
+	2014-01-24 16:08:25 -0800	passed	description5	./spec/m1k1_spec.rb
+	2014-01-24 16:08:25 -0800	passed	description6	./spec/m1k1_spec.rb
+	2014-01-24 16:08:25 -0800	passed	description7	./spec/m1k1_spec.rb
+	2014-01-24 16:08:25 -0800	passed	description8	./spec/m1k1_spec.rb
+	2014-01-24 16:08:25 -0800	passed	description9	./spec/m1k1_spec.rb
+	2014-01-25 16:08:25 -0800	failed	description0	./spec/m1k1_spec.rb	msg40	ec40
+	2014-01-25 16:08:25 -0800	failed	description1	./spec/m1k1_spec.rb	msg41	ec41
+	2014-01-25 16:08:25 -0800	failed	description2	./spec/m1k1_spec.rb	msg42	ec42
+	2014-01-25 16:08:25 -0800	failed	description3	./spec/m1k1_spec.rb	msg43	ec43
+	2014-01-25 16:08:25 -0800	passed	description4	./spec/m1k1_spec.rb
+	2014-01-25 16:08:25 -0800	passed	description5	./spec/m1k1_spec.rb
+	2014-01-25 16:08:25 -0800	passed	description6	./spec/m1k1_spec.rb
+	2014-01-25 16:08:25 -0800	passed	description7	./spec/m1k1_spec.rb
+	2014-01-25 16:08:25 -0800	passed	description8	./spec/m1k1_spec.rb
+	2014-01-25 16:08:25 -0800	passed	description9	./spec/m1k1_spec.rb
+	2014-01-26 16:08:25 -0800	failed	description0	./spec/m1k1_spec.rb	msg50	ec50
+	2014-01-26 16:08:25 -0800	failed	description1	./spec/m1k1_spec.rb	msg51	ec51
+	2014-01-26 16:08:25 -0800	failed	description2	./spec/m1k1_spec.rb	msg52	ec52
+	2014-01-26 16:08:25 -0800	failed	description3	./spec/m1k1_spec.rb	msg53	ec53
+	2014-01-26 16:08:25 -0800	failed	description4	./spec/m1k1_spec.rb	msg54	ec54
+	2014-01-26 16:08:25 -0800	passed	description5	./spec/m1k1_spec.rb
+	2014-01-26 16:08:25 -0800	passed	description6	./spec/m1k1_spec.rb
+	2014-01-26 16:08:25 -0800	passed	description7	./spec/m1k1_spec.rb
+	2014-01-26 16:08:25 -0800	passed	description8	./spec/m1k1_spec.rb
+	2014-01-26 16:08:25 -0800	passed	description9	./spec/m1k1_spec.rb
+	2014-01-27 16:08:25 -0800	failed	description0	./spec/m1k1_spec.rb	msg60	ec60
+	2014-01-27 16:08:25 -0800	failed	description1	./spec/m1k1_spec.rb	msg61	ec61
+	2014-01-27 16:08:25 -0800	failed	description2	./spec/m1k1_spec.rb	msg62	ec62
+	2014-01-27 16:08:25 -0800	failed	description3	./spec/m1k1_spec.rb	msg63	ec63
+	2014-01-27 16:08:25 -0800	failed	description4	./spec/m1k1_spec.rb	msg64	ec64
+	2014-01-27 16:08:25 -0800	failed	description5	./spec/m1k1_spec.rb	msg65	ec65
+	2014-01-27 16:08:25 -0800	failed	description6	./spec/m1k1_spec.rb	msg66	ec66
+	2014-01-27 16:08:25 -0800	failed	description7	./spec/m1k1_spec.rb	msg67	ec67
+	2014-01-27 16:08:25 -0800	failed	description8	./spec/m1k1_spec.rb	msg68	ec68
+	2014-01-27 16:08:25 -0800	failed	description9	./spec/m1k1_spec.rb	msg69	ec69
