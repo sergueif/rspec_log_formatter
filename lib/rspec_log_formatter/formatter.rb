@@ -20,10 +20,6 @@ module RspecLogFormatter
       super
     end
 
-    def self.analyze(filepath)
-      Analysis::Analyzer.new.analyze(filepath)
-    end
-
     def example_started(example)
       @clock_start = clock.now
     end
