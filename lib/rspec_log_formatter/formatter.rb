@@ -4,7 +4,6 @@ require "rspec/core/formatters/base_formatter"
 module RspecLogFormatter
   class Formatter < RSpec::Core::Formatters::BaseFormatter
     FILENAME = "rspec.history"
-    TIME_LOG_FILENAME = "rspec.times"
 
     class Config
       def clock=(clock)
@@ -27,10 +26,8 @@ module RspecLogFormatter
       Analysis::Analyzer.new.analyze(filepath)
     end
 
-
     def dump_summary(_duration, _example_count, _failure_count, _pending_count)
       suite_end_time = @clock.now
-
       File.open(FILENAME, "a") do |f|
         (examples - failed_examples).each do |example|
           record("passed", example, f, suite_end_time)
@@ -38,10 +35,6 @@ module RspecLogFormatter
         failed_examples.each do |example|
           record("failed", example, f, suite_end_time, example.exception)
         end
-      end
-
-      File.open(TIME_LOG_FILENAME, "a") do |f|
-        f.puts [ENV["BUILD_NUMBER"], suite_end_time, examples.count, elapsed_time].to_csv(col_sep: "\t")
       end
     end
 
@@ -68,8 +61,5 @@ module RspecLogFormatter
       stream.puts example_data.to_csv(col_sep: "\t")
     end
 
-    def elapsed_time
-      @clock.now - @start_time
-    end
   end
 end
