@@ -5,24 +5,16 @@ module RspecLogFormatter
   class Formatter < RSpec::Core::Formatters::BaseFormatter
     FILENAME = "rspec.history"
 
-    class Config
-      def clock=(clock)
-        @clock = clock
-      end
-      def clock
-        @clock ||= Time
-        @clock
-      end
-      attr_accessor :keep_builds
-      def reset
-        @keep_builds = nil
-        @clock = nil
+    class Maker
+      def new(_output)
+        RspecLogFormatter::Formatter.new(clock, opts)
       end
     end
-    CONFIG = Config.new
+    Factory = Maker.new
 
-    def initialize(*args)
-      super
+    def initialize(clock=nil, opts={})
+      @clock = clock || Time
+      @keep_builds = opts[:keep_builds]
     end
 
     def example_started(example)
@@ -38,15 +30,13 @@ module RspecLogFormatter
     end
 
     def dump_summary(_,_,_,_)
-      return unless CONFIG.keep_builds
-      RspecLogFormatter::Analysis::Analyzer.new.truncate(FILENAME, keep_builds: CONFIG.keep_builds)
+      return unless @keep_builds
+      RspecLogFormatter::Analysis::Analyzer.new.truncate(FILENAME, keep_builds: @keep_builds)
     end
 
     private
 
-    def clock
-      CONFIG.clock
-    end
+    attr_reader :clock
 
     def record(outcome, example, time, duration, exception=nil)
       if exception

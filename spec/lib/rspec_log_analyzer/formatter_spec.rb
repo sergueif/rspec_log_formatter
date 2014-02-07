@@ -4,7 +4,6 @@ describe RspecLogFormatter::Formatter do
 
   after(:each) do
     ENV.delete("BUILD_NUMBER")
-    RspecLogFormatter::Formatter::CONFIG.reset
   end
 
   def make_example(opts={})
@@ -17,9 +16,7 @@ describe RspecLogFormatter::Formatter do
 
   it "can truncate the log file" do
     the_example = make_example
-    RspecLogFormatter::Formatter::CONFIG.keep_builds = 2
-    RspecLogFormatter::Formatter::CONFIG.clock = double(now: Time.at(0))
-    formatter = RspecLogFormatter::Formatter.new(StringIO.new)
+    formatter = RspecLogFormatter::Formatter.new(double(now: Time.at(0)), keep_builds: 2)
     ENV["BUILD_NUMBER"] = "1"
     formatter.example_started(the_example)
     formatter.example_passed(the_example)
@@ -33,7 +30,6 @@ describe RspecLogFormatter::Formatter do
 2	1969-12-31 16:00:00 -0800	passed	description_1	path_1			0.0
 HEREDOC
 
-    formatter = RspecLogFormatter::Formatter.new(StringIO.new)
     ENV["BUILD_NUMBER"] = "3"
     formatter.example_started(the_example)
     formatter.example_passed(the_example)
@@ -49,22 +45,25 @@ HEREDOC
 HEREDOC
   end
 
+  class FakeClock
+    def initialize(now)
+      self.now = now
+    end
+    attr_accessor :now
+  end
+
   it "works" do
     failed_example = make_example(exception: Exception.new("Error"))
     passed_example = make_example(exception: nil)
     time = Time.parse("2014-02-06 16:01:10")
-    clock = double(now: time)
-    RspecLogFormatter::Formatter::CONFIG.clock = clock
-
-    formatter = RspecLogFormatter::Formatter.new(StringIO.new)
+    clock = FakeClock.new(time)
+    formatter = RspecLogFormatter::Formatter.new(clock)
     formatter.example_started(failed_example)
-    #clock.stub(now: time + 5)
-    RspecLogFormatter::Formatter::CONFIG.clock = double(now: time + 5)
+    clock.now = time + 5
     formatter.example_failed(failed_example)
 
     formatter.example_started(passed_example)
-    #clock.stub(:now, time + 8)
-    RspecLogFormatter::Formatter::CONFIG.clock = double(now: time + 8)
+    clock.now = time + 8
     formatter.example_passed(passed_example)
     formatter.dump_summary(1,2,3,4)
     File.open('rspec.history'). readlines.should == [
