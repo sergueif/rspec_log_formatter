@@ -13,18 +13,24 @@ describe RspecLogFormatter::Formatter do
   it "works" do
     failed_example = make_example(exception: Exception.new("Error"))
     passed_example = make_example(exception: nil)
-    clock = double(now: Time.parse("2014-02-06 16:01:10"))
+    time = Time.parse("2014-02-06 16:01:10")
+    clock = double(now: time)
     RspecLogFormatter::Formatter::CONFIG.clock = clock
 
     formatter = RspecLogFormatter::Formatter.new(StringIO.new)
     formatter.example_started(failed_example)
+    #clock.stub(now: time + 5)
+    RspecLogFormatter::Formatter::CONFIG.clock = double(now: time + 5)
     formatter.example_failed(failed_example)
+
     formatter.example_started(passed_example)
+    #clock.stub(:now, time + 8)
+    RspecLogFormatter::Formatter::CONFIG.clock = double(now: time + 8)
     formatter.example_passed(passed_example)
     formatter.dump_summary(1,2,3,4)
     File.open('rspec.history').readlines.should == [
-      "\t2014-02-06 16:01:10 -0800\tfailed\tdescription_1\tpath_1\tError\tException\n",
-      "\t2014-02-06 16:01:10 -0800\tpassed\tdescription_2\tpath_2\n",
+      "\t2014-02-06 16:01:15 -0800\tfailed\tdescription_1\tpath_1\tError\tException\t5.0\n",
+      "\t2014-02-06 16:01:18 -0800\tpassed\tdescription_2\tpath_2\t\t\t3.0\n",
     ]
   end
 end

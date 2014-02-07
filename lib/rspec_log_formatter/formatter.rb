@@ -18,32 +18,38 @@ module RspecLogFormatter
 
     def initialize(*args)
       super
-      @clock = CONFIG.clock
-      @start_time = @clock.now
     end
 
     def self.analyze(filepath)
       Analysis::Analyzer.new.analyze(filepath)
     end
 
+    def example_started(example)
+      @clock_start = clock.now
+    end
+
     def example_passed(example)
-      record("passed", example, @clock.now)
+      record("passed", example, clock.now, clock.now - @clock_start)
     end
 
     def example_failed(example)
-      record("failed", example, @clock.now, example.exception)
+      record("failed", example, clock.now, clock.now - @clock_start, example.exception)
     end
 
     private
 
-    def record(outcome, example, time, exception=nil)
+    def clock
+      CONFIG.clock
+    end
+
+    def record(outcome, example, time, duration, exception=nil)
       if exception
         exception_data = [
           exception.message.gsub(/\r|\n|\t/, " "),
           exception.class,
         ]
       else
-        exception_data = []
+        exception_data = [nil,nil]
       end
 
       example_data = [
@@ -52,7 +58,7 @@ module RspecLogFormatter
         outcome,
         example.full_description.to_s.gsub(/\r|\n|\t/, " "),
         example.file_path,
-      ] + exception_data
+      ] + exception_data + [duration]
 
       File.open(FILENAME, "a") do |f|
         f.puts example_data.to_csv(col_sep: "\t")
