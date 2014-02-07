@@ -21,4 +21,19 @@ describe RspecLogFormatter::Analysis::Analyzer do
       ]
     }
   end
+
+  it "can analyze only a window of builds" do
+    filepath = File.expand_path("../../../../fixtures/test_was_flaky_then_fixed.history", __FILE__)
+    subject.analyze(filepath, last_builds: 7).first.should == {
+      description: "desc",
+      percent: 30.0,
+      failure_messages: ["ec10\n      msg10", "ec10\n      msg10", "ec10\n      msg10"]
+    }
+    subject.analyze(filepath, last_builds: 4).first.should == {
+      description: "desc",
+      percent: 0.0,
+      failure_messages: []
+    }
+
+  end
 end

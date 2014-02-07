@@ -3,15 +3,25 @@ require 'csv'
 module RspecLogFormatter
   module Analysis
     class Analyzer
-      def analyze(filepath)
+      def analyze(filepath, options = {})
+        window = options[:last_builds]
+
+        build_numbers = []
         results = File.open(filepath).each_line.map do |line|
-          Result.new(*CSV.parse_line(line, col_sep: "\t").first(7))
+          result = Result.new(*CSV.parse_line(line, col_sep: "\t").first(7))
+          build_numbers << result.build_number
+          result
         end
+        build_numbers.uniq!.sort!
+
 
         scores = []
         results.group_by(&:description).each do |description, results|
           score = Score.new(description)
-          results.group_by(&:build_number).each do |_build_number, results|
+
+          results.group_by(&:build_number).each do |build_number, results|
+            next if (window && !build_numbers.last(window).include?(build_number))
+
             next if results.all?(&:failure?)
 
             score.runs += results.count

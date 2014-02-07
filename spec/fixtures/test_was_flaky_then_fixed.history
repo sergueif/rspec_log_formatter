@@ -1,0 +1,10 @@
+1	2014-01-21 16:08:25 -0800	failed	desc	./spec/m1k1_spec.rb	msg10	ec10
+1	2014-01-21 16:08:25 -0800	passed	desc	./spec/m1k1_spec.rb
+2	2014-01-21 16:08:25 -0800	failed	desc	./spec/m1k1_spec.rb	msg10	ec10
+2	2014-01-21 16:08:25 -0800	passed	desc	./spec/m1k1_spec.rb
+3	2014-01-21 16:08:25 -0800	failed	desc	./spec/m1k1_spec.rb	msg10	ec10
+3	2014-01-21 16:08:25 -0800	passed	desc	./spec/m1k1_spec.rb
+4	2014-01-21 16:08:25 -0800	passed	desc	./spec/m1k1_spec.rb
+5	2014-01-21 16:08:25 -0800	passed	desc	./spec/m1k1_spec.rb
+6	2014-01-21 16:08:25 -0800	passed	desc	./spec/m1k1_spec.rb
+7	2014-01-21 16:08:25 -0800	passed	desc	./spec/m1k1_spec.rb
