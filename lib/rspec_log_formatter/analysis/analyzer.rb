@@ -64,7 +64,7 @@ module RspecLogFormatter
           build_numbers << result.build_number
           results << result
         end
-        [build_numbers.uniq!.sort!, results]
+        [build_numbers.uniq.sort, results]
       end
 
     end

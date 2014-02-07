@@ -13,6 +13,7 @@ module RspecLogFormatter
         @clock ||= Time
         @clock
       end
+      attr_accessor :keep_builds
     end
     CONFIG = Config.new
 
@@ -30,6 +31,10 @@ module RspecLogFormatter
 
     def example_failed(example)
       record("failed", example, clock.now, clock.now - @clock_start, example.exception)
+    end
+
+    def dump_summary(_,_,_,_)
+      RspecLogFormatter::Analysis::Analyzer.new.truncate(FILENAME, keep_builds: CONFIG.keep_builds)
     end
 
     private

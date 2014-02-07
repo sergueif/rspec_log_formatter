@@ -2,12 +2,50 @@ require 'spec_helper'
 
 describe RspecLogFormatter::Formatter do
 
+  after(:each) do
+    ENV.delete("BUILD_NUMBER")
+  end
+
   def make_example(opts={})
     @count ||= 0; @count += 1
     double({
       full_description: "description_#{@count}",
       file_path: "path_#{@count}"
     }.merge(opts))
+  end
+
+  it "can truncate the log file" do
+    the_example = make_example
+    RspecLogFormatter::Formatter::CONFIG.keep_builds = 2
+    RspecLogFormatter::Formatter::CONFIG.clock = double(now: Time.at(0))
+    formatter = RspecLogFormatter::Formatter.new(StringIO.new)
+    ENV["BUILD_NUMBER"] = "1"
+    formatter.example_started(the_example)
+    formatter.example_passed(the_example)
+    ENV["BUILD_NUMBER"] = "2"
+    formatter.example_started(the_example)
+    formatter.example_passed(the_example)
+    formatter.dump_summary(1,2,3,4)
+
+    File.open(RspecLogFormatter::Formatter::FILENAME, 'r').read.should == <<HEREDOC
+1	1969-12-31 16:00:00 -0800	passed	description_1	path_1			0.0
+2	1969-12-31 16:00:00 -0800	passed	description_1	path_1			0.0
+HEREDOC
+
+    formatter = RspecLogFormatter::Formatter.new(StringIO.new)
+    ENV["BUILD_NUMBER"] = "3"
+    formatter.example_started(the_example)
+    formatter.example_passed(the_example)
+    ENV["BUILD_NUMBER"] = "4"
+
+    formatter.example_started(the_example)
+    formatter.example_passed(the_example)
+    formatter.dump_summary(1,2,3,4)
+
+    File.open(RspecLogFormatter::Formatter::FILENAME, 'r').read.should == <<HEREDOC
+3	1969-12-31 16:00:00 -0800	passed	description_1	path_1			0.0
+4	1969-12-31 16:00:00 -0800	passed	description_1	path_1			0.0
+HEREDOC
   end
 
   it "works" do
