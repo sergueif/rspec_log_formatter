@@ -26,21 +26,17 @@ module RspecLogFormatter
       Analysis::Analyzer.new.analyze(filepath)
     end
 
-    def dump_summary(_duration, _example_count, _failure_count, _pending_count)
-      suite_end_time = @clock.now
-      File.open(FILENAME, "a") do |f|
-        (examples - failed_examples).each do |example|
-          record("passed", example, f, suite_end_time)
-        end
-        failed_examples.each do |example|
-          record("failed", example, f, suite_end_time, example.exception)
-        end
-      end
+    def example_passed(example)
+      record("passed", example, @clock.now)
+    end
+
+    def example_failed(example)
+      record("failed", example, @clock.now, example.exception)
     end
 
     private
 
-    def record(outcome, example, stream, time, exception=nil)
+    def record(outcome, example, time, exception=nil)
       if exception
         exception_data = [
           exception.message.gsub(/\r|\n|\t/, " "),
@@ -58,7 +54,9 @@ module RspecLogFormatter
         example.file_path,
       ] + exception_data
 
-      stream.puts example_data.to_csv(col_sep: "\t")
+      File.open(FILENAME, "a") do |f|
+        f.puts example_data.to_csv(col_sep: "\t")
+      end
     end
 
   end
