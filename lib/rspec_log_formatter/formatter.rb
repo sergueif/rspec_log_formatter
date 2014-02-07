@@ -14,6 +14,10 @@ module RspecLogFormatter
         @clock
       end
       attr_accessor :keep_builds
+      def reset
+        @keep_builds = nil
+        @clock = nil
+      end
     end
     CONFIG = Config.new
 
@@ -34,6 +38,7 @@ module RspecLogFormatter
     end
 
     def dump_summary(_,_,_,_)
+      return unless CONFIG.keep_builds
       RspecLogFormatter::Analysis::Analyzer.new.truncate(FILENAME, keep_builds: CONFIG.keep_builds)
     end
 

@@ -4,6 +4,7 @@ describe RspecLogFormatter::Formatter do
 
   after(:each) do
     ENV.delete("BUILD_NUMBER")
+    RspecLogFormatter::Formatter::CONFIG.reset
   end
 
   def make_example(opts={})
@@ -66,7 +67,7 @@ HEREDOC
     RspecLogFormatter::Formatter::CONFIG.clock = double(now: time + 8)
     formatter.example_passed(passed_example)
     formatter.dump_summary(1,2,3,4)
-    File.open('rspec.history').readlines.should == [
+    File.open('rspec.history'). readlines.should == [
       "\t2014-02-06 16:01:15 -0800\tfailed\tdescription_1\tpath_1\tError\tException\t5.0\n",
       "\t2014-02-06 16:01:18 -0800\tpassed\tdescription_2\tpath_2\t\t\t3.0\n",
     ]
