@@ -6,17 +6,30 @@ module RspecLogFormatter
     FILENAME = "rspec.history"
     TIME_LOG_FILENAME = "rspec.times"
 
+    class Config
+      def clock=(clock)
+        @clock = clock
+      end
+      def clock
+        @clock ||= Time
+        @clock
+      end
+    end
+    CONFIG = Config.new
+
     def initialize(*args)
       super
-      @start_time = Time.now
+      @clock = CONFIG.clock
+      @start_time = @clock.now
     end
 
     def self.analyze(filepath)
       Analysis::Analyzer.new.analyze(filepath)
     end
 
+
     def dump_summary(_duration, _example_count, _failure_count, _pending_count)
-      suite_end_time = Time.now
+      suite_end_time = @clock.now
 
       File.open(FILENAME, "a") do |f|
         (examples - failed_examples).each do |example|
@@ -56,7 +69,7 @@ module RspecLogFormatter
     end
 
     def elapsed_time
-      Time.now - @start_time
+      @clock.now - @start_time
     end
   end
 end
