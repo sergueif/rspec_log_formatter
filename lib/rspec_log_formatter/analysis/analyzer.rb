@@ -21,8 +21,8 @@ module RspecLogFormatter
 
           results.group_by(&:build_number).each do |build_number, results|
             next if (window && !build_numbers.last(window).include?(build_number))
+            next if results.all?(&:failure?) #not flaky
 
-            next if results.all?(&:failure?)
 
             score.runs += results.count
             score.failures += results.count(&:failure?)

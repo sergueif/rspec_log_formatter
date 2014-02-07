@@ -1,10 +1,12 @@
 require "spec_helper"
 
 describe RspecLogFormatter::Analysis::Analyzer do
-  it "parses an rspec.history file and returns parsed results"
-  it "sorts the parsed results by failure percentage"
-  it "organizes results by spec description"
-  it "needs more specs"
+  it "sorts the parsed results by failure percentage" do
+    filepath = File.expand_path("../../../../fixtures/varying_flakiness.history", __FILE__)
+    described_class.new.analyze(filepath).map{|r| r[:percent] }.should == [
+      75.0, 100*2.0/3.0, 50.0
+    ]
+  end
 
   it "works" do
     filepath = File.expand_path("../../../../fixtures/fail_history_analyzer.rspec.history", __FILE__)
