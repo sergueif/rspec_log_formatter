@@ -6,8 +6,15 @@ module RspecLogFormatter
       end
 
       def to_s
-        results = @results.first(10)
-        header = "Top #{results.count} flakiest examples\n"
+        results = @results.reject do |result|
+          result[:percent] == 0.0
+        end.first(10)
+
+        header = if results.empty?
+           "None of the specs were flaky"
+         else
+           "Top #{results.size} flakiest examples\n"
+         end
         header + results.each_with_index.map do |result, i|
           title = "  #{i+1}) #{result[:description]} -- #{result[:percent]}%"
           failure_messages = result[:failure_messages].map { |fm| "    * #{fm}" }.join("\n")
