@@ -1,17 +1,19 @@
 module RspecLogFormatter
   module Analysis
     class Result
-      def initialize(build_number, time, outcome, description, spec_path, message=nil, klass=nil)
+      def initialize(build_number, time, outcome, description, spec_path, message=nil, klass=nil,duration=nil)
+        @time = Time.parse(time)
         @build_number = build_number
         @description = description
         @outcome = outcome
         @spec_path = spec_path
         @message = message
         @klass = klass
+        @duration = duration.to_f
       end
 
-      attr_accessor :build_number, :description
-      attr_reader :message, :klass
+      attr_accessor :build_number, :description, :duration
+      attr_reader :message, :klass, :time
 
       def failure?
         @outcome == "failed"

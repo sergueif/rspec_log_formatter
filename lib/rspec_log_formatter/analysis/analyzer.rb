@@ -6,17 +6,18 @@ module RspecLogFormatter
       def analyze(filepath, options = {})
         window = options[:last_builds]
 
-        build_numbers, results = result_numbers(filepath, options = {})
+        build_numbers, results = result_numbers(filepath, options)
 
         scores = []
         results.group_by(&:description).each do |description, results|
-          score = Score.new(description)
+          score = Score.new(description, max_reruns: options[:max_reruns])
 
           results.group_by(&:build_number).each do |build_number, results|
             next if (window && !build_numbers.last(window).include?(build_number))
             next if results.all?(&:failure?) #not flaky
 
 
+            results.each{|r| score.absorb(r) }
             score.runs += results.count
             score.failures += results.count(&:failure?)
             score.failure_messages += results.select(&:failure?).map { |r| "#{r.klass}\n      #{r.message}" }
@@ -24,7 +25,7 @@ module RspecLogFormatter
           scores << score if score.runs > 0
         end
 
-        scores.sort.map(&:as_hash)
+        scores.select(&:flaky?).sort.map(&:as_hash)
       end
 
       def truncate(filepath, opts = {})
@@ -47,7 +48,7 @@ module RspecLogFormatter
       private
 
       def parse_line(line)
-        Result.new(*CSV.parse_line(line, col_sep: "\t").first(7))
+        Result.new(*CSV.parse_line(line, col_sep: "\t").first(8))
       end
 
       def each_result(filepath, &block)

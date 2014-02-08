@@ -16,10 +16,14 @@ module RspecLogFormatter
           "Top #{results.size} flakiest examples\n"
         end
         header + results.each_with_index.map do |result, i|
-          title = "  #{i+1}) #{result[:description]} -- #{(100.0*result[:fraction]).to_i}%"
+          title = "  #{i+1}) #{result[:description]} -- #{(100.0*result[:fraction]).to_i}%#{cost_segment(result)}"
           failure_messages = result[:failure_messages].map { |fm| "    * #{fm}" }.join("\n")
           title + "\n" + failure_messages
         end.join("\n")
+      end
+
+      def cost_segment(result)
+        " (cost: #{result[:cost].to_i}s)" if result[:cost]
       end
     end
   end

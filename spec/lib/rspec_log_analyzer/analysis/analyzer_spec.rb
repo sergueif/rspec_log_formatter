@@ -7,6 +7,10 @@ describe RspecLogFormatter::Analysis::Analyzer do
     described_class.new.analyze(filepath).map{|r| r[:fraction] }.should == [
       0.75, 2.0/3.0, 0.50
     ]
+    described_class.new.analyze(filepath, max_reruns: 0).map{|r| r[:cost] }.should == [14.0, 13.333333333333332, 12.0]
+    described_class.new.analyze(filepath, max_reruns: 1).map{|r| r[:cost] }.should == [15.5, 15.11111111111111, 14.0]
+    described_class.new.analyze(filepath, max_reruns: 2).map{|r| r[:cost] }.should == [18.875, 18.666666666666668, 17.0]
+    described_class.new.analyze(filepath, max_reruns: 3).map{|r| r[:cost] }.should == [23.09375, 22.617283950617285, 19.5]
   end
 
   it "works" do
@@ -45,10 +49,10 @@ HEREDOC
       fraction: 0.30,
       failure_messages: ["ec10\n      msg10", "ec10\n      msg10", "ec10\n      msg10"]
     }
-    subject.analyze(filepath, last_builds: 4).first.should == {
+    subject.analyze(filepath, last_builds: 5).first.should == {
       description: "desc",
-      fraction: 0.0,
-      failure_messages: []
+      fraction: 0.16666666666666666,
+      failure_messages: ["ec10\n      msg10"],
     }
 
   end

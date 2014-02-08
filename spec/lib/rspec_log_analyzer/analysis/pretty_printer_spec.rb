@@ -5,18 +5,20 @@ describe RspecLogFormatter::Analysis::PrettyPrinter do
     results = [{
       description: "I fail a lot.",
       fraction: 0.99,
+      cost: 7.7,
       failure_messages: ["I'm a total failure."]
     },{
       description: "I fail often.",
       fraction: 0.70,
+      cost: 3.3,
       failure_messages: ["I am a failure message.", "I'm another failure message."]
     }]
 
     described_class.new(results).to_s.should == <<-TEXT.strip
 Top 2 flakiest examples
-  1) I fail a lot. -- 99%
+  1) I fail a lot. -- 99% (cost: 7s)
     * I'm a total failure.
-  2) I fail often. -- 70%
+  2) I fail often. -- 70% (cost: 3s)
     * I am a failure message.
     * I'm another failure message.
     TEXT
