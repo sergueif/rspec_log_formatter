@@ -1,7 +1,6 @@
 require 'spec_helper'
 
-describe RspecLogFormatter::Formatter do
-
+describe RspecLogFormatter::AnalyzerFormatter do
 
   it "works" do
     filepath = File.expand_path("../../../fixtures/varying_flakiness.history", __FILE__)

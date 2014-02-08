@@ -9,7 +9,6 @@ module RspecLogFormatter
       super
     end
 
-
     def dump_summary(_,_,_,_)
       output.puts RspecLogFormatter::Analysis::PrettyPrinter.new(
         RspecLogFormatter::Analysis::Analyzer.new.analyze(FILENAME)
