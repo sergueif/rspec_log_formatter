@@ -2,10 +2,10 @@ require "spec_helper"
 require 'tempfile'
 
 describe RspecLogFormatter::Analysis::Analyzer do
-  it "sorts the parsed results by failure percentage" do
+  it "sorts the parsed results by failure fraction" do
     filepath = File.expand_path("../../../../fixtures/varying_flakiness.history", __FILE__)
-    described_class.new.analyze(filepath).map{|r| r[:percent] }.should == [
-      75.0, 100*2.0/3.0, 50.0
+    described_class.new.analyze(filepath).map{|r| r[:fraction] }.should == [
+      0.75, 2.0/3.0, 0.50
     ]
   end
 
@@ -13,7 +13,7 @@ describe RspecLogFormatter::Analysis::Analyzer do
     filepath = File.expand_path("../../../../fixtures/fail_history_analyzer.rspec.history", __FILE__)
     described_class.new.analyze(filepath).first.should == {
       description: "description0",
-      percent: 85.71428571428571,
+      fraction: 0.8571428571428571,
       failure_messages: [
         "ec10\n      msg10",
         "ec20\n      msg20",
@@ -42,12 +42,12 @@ HEREDOC
     filepath = File.expand_path("../../../../fixtures/test_was_flaky_then_fixed.history", __FILE__)
     subject.analyze(filepath, last_builds: 7).first.should == {
       description: "desc",
-      percent: 30.0,
+      fraction: 0.30,
       failure_messages: ["ec10\n      msg10", "ec10\n      msg10", "ec10\n      msg10"]
     }
     subject.analyze(filepath, last_builds: 4).first.should == {
       description: "desc",
-      percent: 0.0,
+      fraction: 0.0,
       failure_messages: []
     }
 

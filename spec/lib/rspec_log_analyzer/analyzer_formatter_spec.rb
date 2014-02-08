@@ -12,19 +12,19 @@ describe RspecLogFormatter::Formatter do
     out.rewind
     out.read.should == <<HEREDOC
 Top 3 flakiest examples
-  1) desc3 -- 75.0%
+  1) desc3 -- 75%
     * ec10
       msg10
     * ec10
       msg10
     * ec10
       msg10
-  2) desc2 -- 66.66666666666667%
+  2) desc2 -- 66%
     * ec10
       msg10
     * ec10
       msg10
-  3) desc1 -- 50.0%
+  3) desc1 -- 50%
     * ec10
       msg10
 HEREDOC

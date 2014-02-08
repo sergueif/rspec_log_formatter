@@ -4,11 +4,11 @@ describe RspecLogFormatter::Analysis::PrettyPrinter do
   it "pretty prints the results of an analysis" do
     results = [{
       description: "I fail a lot.",
-      percent: 99,
+      fraction: 0.99,
       failure_messages: ["I'm a total failure."]
     },{
       description: "I fail often.",
-      percent: 70,
+      fraction: 0.70,
       failure_messages: ["I am a failure message.", "I'm another failure message."]
     }]
 
@@ -25,7 +25,7 @@ Top 2 flakiest examples
   context "when there are more than 10 results" do
     it "only prints the top 10" do
       results = (1..11).map do |i|
-        {description: "hi#{i}", percent: 1, failure_messages: ["bye#{i}"]}
+        {description: "hi#{i}", fraction: 0.01, failure_messages: ["bye#{i}"]}
       end
 
       described_class.new(results).to_s.should == <<-TEXT.strip
@@ -56,9 +56,9 @@ Top 10 flakiest examples
 
   it "only prints flaky specs" do
     results = (1..7).map do |i|
-      {description: "hi#{i}", percent: 1, failure_messages: ["bye#{i}"]}
+      {description: "hi#{i}", fraction: 0.01, failure_messages: ["bye#{i}"]}
     end + (8..10).map do |i|
-      {description: "hi#{i}", percent: 0.0, failure_messages: ["bye#{i}"]}
+      {description: "hi#{i}", fraction: 0.0, failure_messages: ["bye#{i}"]}
 
     end
 
@@ -83,7 +83,7 @@ Top 10 flakiest examples
 
   it "only prints flaky specs" do
     results = (1..11).map do |i|
-      {description: "hi#{i}", percent: 0, failure_messages: ["bye#{i}"]}
+      {description: "hi#{i}", fraction: 0.0, failure_messages: ["bye#{i}"]}
     end
 
     described_class.new(results).to_s.should == "None of the specs were flaky"

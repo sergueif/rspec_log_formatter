@@ -8,18 +8,18 @@ module RspecLogFormatter
         @failure_messages = []
       end
 
-      def percent
-        100 * @failures.to_f/@runs
+      def fraction
+        @failures.to_f/@runs
       end
 
       def <=>(other)
-        other.percent <=> percent
+        other.fraction <=> fraction
       end
 
       def as_hash
         {
           description: @description,
-          percent: percent,
+          fraction: fraction,
           failure_messages: failure_messages,
         }
       end

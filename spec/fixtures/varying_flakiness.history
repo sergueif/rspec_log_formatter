@@ -1,9 +1,9 @@
-1	2014-01-21 16:08:25 -0800	failed	desc1	./spec/m1k1_spec.rb	msg10	ec10
-1	2014-01-21 16:08:25 -0800	passed	desc1	./spec/m1k1_spec.rb
-1	2014-01-21 16:08:25 -0800	failed	desc3	./spec/m1k1_spec.rb	msg10	ec10
-1	2014-01-21 16:08:25 -0800	failed	desc3	./spec/m1k1_spec.rb	msg10	ec10
-1	2014-01-21 16:08:25 -0800	failed	desc3	./spec/m1k1_spec.rb	msg10	ec10
-1	2014-01-21 16:08:25 -0800	passed	desc3	./spec/m1k1_spec.rb
-1	2014-01-21 16:08:25 -0800	failed	desc2	./spec/m1k1_spec.rb	msg10	ec10
-1	2014-01-21 16:08:25 -0800	failed	desc2	./spec/m1k1_spec.rb	msg10	ec10
-1	2014-01-21 16:08:25 -0800	passed	desc2	./spec/m1k1_spec.rb
+1	2014-01-21 16:08:25 -0800	failed	desc1	./spec/m1k1_spec.rb	msg10	ec10	16.0
+1	2014-01-21 16:08:25 -0800	passed	desc1	./spec/m1k1_spec.rb			8.0
+1	2014-01-21 16:08:25 -0800	failed	desc3	./spec/m1k1_spec.rb	msg10	ec10	16.0
+1	2014-01-21 16:08:25 -0800	failed	desc3	./spec/m1k1_spec.rb	msg10	ec10	16.0
+1	2014-01-21 16:08:25 -0800	failed	desc3	./spec/m1k1_spec.rb	msg10	ec10	16.0
+1	2014-01-21 16:08:25 -0800	passed	desc3	./spec/m1k1_spec.rb			8.0
+1	2014-01-21 16:08:25 -0800	failed	desc2	./spec/m1k1_spec.rb	msg10	ec10	16.0
+1	2014-01-21 16:08:25 -0800	failed	desc2	./spec/m1k1_spec.rb	msg10	ec10	16.0
+1	2014-01-21 16:08:25 -0800	passed	desc2	./spec/m1k1_spec.rb			8.0
