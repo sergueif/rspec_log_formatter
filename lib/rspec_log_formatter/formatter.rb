@@ -14,6 +14,7 @@ module RspecLogFormatter
 
     def initialize(clock=nil, opts={})
       @clock = clock || Time
+      @build_number = opts[:build_number] || ENV["BUILD_NUMBER"]
       @keep_builds = opts[:keep_builds]
     end
 
@@ -49,7 +50,7 @@ module RspecLogFormatter
       end
 
       example_data = [
-        ENV["BUILD_NUMBER"],
+        @build_number,
         time,
         outcome,
         example.full_description.to_s.gsub(/\r|\n|\t/, " "),

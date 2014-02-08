@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe RspecLogFormatter::Formatter do
 
-  after(:each) do
-    ENV.delete("BUILD_NUMBER")
-  end
-
   def make_example(opts={})
     @count ||= 0; @count += 1
     double({
@@ -14,13 +10,18 @@ describe RspecLogFormatter::Formatter do
     }.merge(opts))
   end
 
+  def formatter_for_build(build)
+    RspecLogFormatter::Formatter.new(double(now: Time.at(0)), keep_builds: 2, build_number: build)
+  end
+
   it "can truncate the log file" do
     the_example = make_example
-    formatter = RspecLogFormatter::Formatter.new(double(now: Time.at(0)), keep_builds: 2)
-    ENV["BUILD_NUMBER"] = "1"
+    formatter = formatter_for_build(1)
     formatter.example_started(the_example)
     formatter.example_passed(the_example)
-    ENV["BUILD_NUMBER"] = "2"
+    formatter.dump_summary(1,2,3,4)
+
+    formatter = formatter_for_build(2)
     formatter.example_started(the_example)
     formatter.example_passed(the_example)
     formatter.dump_summary(1,2,3,4)
@@ -30,11 +31,12 @@ describe RspecLogFormatter::Formatter do
 2	1969-12-31 16:00:00 -0800	passed	description_1	path_1			0.0
 HEREDOC
 
-    ENV["BUILD_NUMBER"] = "3"
+    formatter = formatter_for_build(3)
     formatter.example_started(the_example)
     formatter.example_passed(the_example)
-    ENV["BUILD_NUMBER"] = "4"
+    formatter.dump_summary(1,2,3,4)
 
+    formatter = formatter_for_build(4)
     formatter.example_started(the_example)
     formatter.example_passed(the_example)
     formatter.dump_summary(1,2,3,4)
