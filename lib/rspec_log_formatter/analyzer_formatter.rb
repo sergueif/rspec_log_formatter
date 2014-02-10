@@ -12,6 +12,8 @@ module RspecLogFormatter
 
       def build(output)
         RspecLogFormatter::AnalyzerFormatter.new(output, {
+          builds_to_analyze: nil,
+          max_reruns: nil
         }.merge(@options))
       end
     end
