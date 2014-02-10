@@ -9,18 +9,18 @@ describe RspecLogFormatter::Formatter do
     }.merge(opts))
   end
 
-  def formatter_for_build(build)
-    RspecLogFormatter::Formatter.new(clock: double(now: Time.at(0)), limit_history: 2, build_number: build)
+  def formatter_for_build(build, opts={})
+    RspecLogFormatter::Formatter.new({clock: double(now: Time.at(0)), build_number: build}.merge(opts))
   end
 
   it "can truncate the log file" do
-    the_example = make_example(1)
+    the_example = make_example(1, limit_history: 2)
     formatter = formatter_for_build(nil)
     formatter.example_started(the_example)
     formatter.example_passed(the_example)
     formatter.dump_summary(1,2,3,4)
 
-    formatter = formatter_for_build(2)
+    formatter = formatter_for_build(2, limit_history: 2)
     formatter.example_started(the_example)
     formatter.example_passed(the_example)
     formatter.dump_summary(1,2,3,4)
@@ -30,12 +30,12 @@ describe RspecLogFormatter::Formatter do
 2	1969-12-31 16:00:00 -0800	passed	description_1	path_1			0.0
 HEREDOC
 
-    formatter = formatter_for_build(3)
+    formatter = formatter_for_build(3, limit_history: 2)
     formatter.example_started(the_example)
     formatter.example_passed(the_example)
     formatter.dump_summary(1,2,3,4)
 
-    formatter = formatter_for_build(4)
+    formatter = formatter_for_build(4, limit_history: 2)
     formatter.example_started(the_example)
     formatter.example_passed(the_example)
     formatter.dump_summary(1,2,3,4)
