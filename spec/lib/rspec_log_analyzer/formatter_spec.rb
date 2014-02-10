@@ -2,21 +2,20 @@ require 'spec_helper'
 
 describe RspecLogFormatter::Formatter do
 
-  def make_example(opts={})
-    @count ||= 0; @count += 1
+  def make_example(count, opts={})
     double({
-      full_description: "description_#{@count}",
-      file_path: "path_#{@count}"
+      full_description: "description_#{count}",
+      file_path: "path_#{count}"
     }.merge(opts))
   end
 
   def formatter_for_build(build)
-    RspecLogFormatter::Formatter.new(double(now: Time.at(0)), keep_builds: 2, build_number: build)
+    RspecLogFormatter::Formatter.new(StringIO.new, clock: double(now: Time.at(0)), keep_builds: 2, build_number: build)
   end
 
   it "can truncate the log file" do
-    the_example = make_example
-    formatter = formatter_for_build(1)
+    the_example = make_example(1)
+    formatter = formatter_for_build(nil)
     formatter.example_started(the_example)
     formatter.example_passed(the_example)
     formatter.dump_summary(1,2,3,4)
@@ -27,7 +26,7 @@ describe RspecLogFormatter::Formatter do
     formatter.dump_summary(1,2,3,4)
 
     File.open(RspecLogFormatter::Formatter::FILENAME, 'r').read.should == <<HEREDOC
-1	1969-12-31 16:00:00 -0800	passed	description_1	path_1			0.0
+	1969-12-31 16:00:00 -0800	passed	description_1	path_1			0.0
 2	1969-12-31 16:00:00 -0800	passed	description_1	path_1			0.0
 HEREDOC
 
@@ -55,11 +54,11 @@ HEREDOC
   end
 
   it "works" do
-    failed_example = make_example(exception: Exception.new("Error"))
-    passed_example = make_example(exception: nil)
+    failed_example = make_example(1, exception: Exception.new("Error"))
+    passed_example = make_example(2, exception: nil)
     time = Time.parse("2014-02-06 16:01:10")
     clock = FakeClock.new(time)
-    formatter = RspecLogFormatter::Formatter.new(clock)
+    formatter = RspecLogFormatter::Formatter.new(StringIO.new, clock: clock)
     formatter.example_started(failed_example)
     clock.now = time + 5
     formatter.example_failed(failed_example)

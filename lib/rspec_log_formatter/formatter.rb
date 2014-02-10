@@ -5,15 +5,8 @@ module RspecLogFormatter
   class Formatter < RSpec::Core::Formatters::BaseFormatter
     FILENAME = "rspec.history"
 
-    class Maker
-      def new(_output)
-        RspecLogFormatter::Formatter.new(clock, opts)
-      end
-    end
-    Factory = Maker.new
-
-    def initialize(clock=nil, opts={})
-      @clock = clock || Time
+    def initialize(output, opts={})
+      @clock = opts[:clock] || Time
       @build_number = opts[:build_number] || ENV["BUILD_NUMBER"]
       @keep_builds = opts[:keep_builds]
     end
