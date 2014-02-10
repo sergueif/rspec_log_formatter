@@ -2,13 +2,27 @@ require "csv"
 require "rspec/core/formatters/base_formatter"
 
 module RspecLogFormatter
-  class Formatter < RSpec::Core::Formatters::BaseFormatter
+  class Formatter
     FILENAME = "rspec.history"
 
-    def initialize(output, opts={})
-      @clock = opts[:clock] || Time
-      @build_number = opts[:build_number] || ENV["BUILD_NUMBER"]
-      @keep_builds = opts[:keep_builds]
+    class Factory
+      def initialize(options={})
+        @options = options
+      end
+
+      def build
+        RspecLogFormatter::Formatter.new({
+          clock: Time,
+          build_number: ENV["BUILD_NUMBER"],
+          limit_history: nil
+        }.merge(@options))
+      end
+    end
+
+    def initialize(opts={})
+      @clock = opts[:clock]
+      @build_number = opts[:build_number]
+      @limit_history = opts[:limit_history]
     end
 
     def example_started(example)
@@ -24,8 +38,8 @@ module RspecLogFormatter
     end
 
     def dump_summary(_,_,_,_)
-      return unless @keep_builds
-      RspecLogFormatter::Analysis::Analyzer.new.truncate(FILENAME, keep_builds: @keep_builds)
+      return unless @limit_history
+      RspecLogFormatter::Analysis::Analyzer.new(limit_history: @limit_history).truncate(FILENAME)
     end
 
     private

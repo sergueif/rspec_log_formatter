@@ -3,17 +3,23 @@ require 'csv'
 module RspecLogFormatter
   module Analysis
     class Analyzer
-      def analyze(filepath, options = {})
-        window = options[:last_builds]
 
-        build_numbers, results = result_numbers(filepath, options)
+      def initialize(options={})
+        @builds_to_analyze = options[:builds_to_analyze]
+        @max_reruns = options[:max_reruns]
+        @limit_history = options[:limit_history]
+      end
+
+      def analyze(filepath)
+
+        build_numbers, results = result_numbers(filepath)
 
         scores = []
         results.group_by(&:description).each do |description, results|
-          score = Score.new(description, max_reruns: options[:max_reruns])
+          score = Score.new(description, max_reruns: @max_reruns)
 
           results.group_by(&:build_number).each do |build_number, results|
-            next if (window && !build_numbers.last(window).include?(build_number))
+            next if (@builds_to_analyze && !build_numbers.last(@builds_to_analyze).include?(build_number))
             next if results.all?(&:failure?) #not flaky
 
 
@@ -28,14 +34,13 @@ module RspecLogFormatter
         scores.select(&:flaky?).sort.map(&:as_hash)
       end
 
-      def truncate(filepath, opts = {})
-        builds = opts.fetch(:keep_builds)
-        build_numbers, results = result_numbers(filepath, options = {})
+      def truncate(filepath)
+        build_numbers, results = result_numbers(filepath)
         sio = StringIO.new
 
         File.open(filepath, 'r').each_line do |line|
           result = parse_line(line)
-          next unless build_numbers.last(builds).include? result.build_number
+          next unless build_numbers.last(@limit_history).include? result.build_number
           sio.puts line
         end
 
@@ -58,7 +63,7 @@ module RspecLogFormatter
         end
       end
 
-      def result_numbers(filepath, options = {})
+      def result_numbers(filepath)
         build_numbers = []
         results = []
         each_result(filepath) do |result|

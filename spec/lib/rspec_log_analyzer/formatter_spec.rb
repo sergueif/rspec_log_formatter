@@ -10,7 +10,7 @@ describe RspecLogFormatter::Formatter do
   end
 
   def formatter_for_build(build)
-    RspecLogFormatter::Formatter.new(StringIO.new, clock: double(now: Time.at(0)), keep_builds: 2, build_number: build)
+    RspecLogFormatter::Formatter.new(clock: double(now: Time.at(0)), limit_history: 2, build_number: build)
   end
 
   it "can truncate the log file" do
@@ -58,7 +58,7 @@ HEREDOC
     passed_example = make_example(2, exception: nil)
     time = Time.parse("2014-02-06 16:01:10")
     clock = FakeClock.new(time)
-    formatter = RspecLogFormatter::Formatter.new(StringIO.new, clock: clock)
+    formatter = RspecLogFormatter::Formatter.new(clock: clock)
     formatter.example_started(failed_example)
     clock.now = time + 5
     formatter.example_failed(failed_example)

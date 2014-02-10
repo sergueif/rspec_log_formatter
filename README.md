@@ -8,17 +8,27 @@ Add this line to your application's Gemfile:
 
     gem 'rspec_log_formatter'
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install rspec_log_formatter
-
 ## Usage
 
-TODO: Write usage instructions here
+You can include the formatter in your suite, by configuring the Rspec.
+
+		RSpec.configure do |config|
+		  config.formatters << RspecLogFormatter::Formatter::Factory
+		  config.formatters << RspecLogFormatter::AnalyzerFormatter::Factory
+		end
+		
+
+Results of each of the tests in your test suite will go in `rspec.history` in the directory the rspec is ran from. What you'll see in there is output like this(columns separated by tabs):
+
+	654	2014-02-10 11:30:20 -0800	passed	Math works	./spec/dummy_spec.rb			0.000722
+	
+The colums are as follows:
+
+	BUILD_NUMBER	TIME_OF_RUN	PASS/FAIL	example description	example_filepath		
+	Build number
+	Date and time
+		
+
 
 ## Contributing
 
