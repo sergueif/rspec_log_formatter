@@ -7,5 +7,10 @@
   </script>
 </head>
 <body>
-  <%= line_chart @plots %>
+  <% @plots.each do |plot| %>
+    <div>
+      <p><%= plot[:name] %></p>
+      <%= line_chart plot[:data] %>
+    </div>
+  <% end %>
 </body>

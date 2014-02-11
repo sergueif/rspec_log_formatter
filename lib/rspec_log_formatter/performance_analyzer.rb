@@ -31,10 +31,15 @@ module RspecLogFormatter
     def analyze(test_description)
       @history_manager.results
       .select{ |result| Array(test_description).include? result.description }
-      .reduce({}) do |memo, result|
-        memo[result.time.to_s] = result.duration
-        memo
-      end
+      .group_by(&:description).map{ |desc, results|
+        {
+          name: desc,
+          data: results.reduce({}) do |memo, result|
+            memo[result.time.to_s] = result.duration
+            memo
+          end
+        }
+      }.sort_by{|example| example[:name]}
     end
   end
 end
