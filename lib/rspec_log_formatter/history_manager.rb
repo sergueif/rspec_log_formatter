@@ -7,12 +7,16 @@ module RspecLogFormatter
       @filepath = filepath
     end
 
+    def builds
+      results.map{|r| r.build_number.to_i}.reduce(SortedSet.new, &:<<).to_a
+    end
+
     def truncate(number_of_builds)
-      builds = results.map{|r| r.build_number.to_i}.reduce(SortedSet.new, &:<<).to_a.last(number_of_builds)
+      kept_builds = builds.to_a.last(number_of_builds)
       sio = StringIO.new
 
       lines.each do |line|
-        sio.puts line if builds.include? (parse(line).build_number.to_i)
+        sio.puts line if kept_builds.include? (parse(line).build_number.to_i)
       end
 
       sio.rewind
@@ -22,17 +26,18 @@ module RspecLogFormatter
       end
     end
 
+    def results
+      lines.map do |line|
+        parse(line)
+      end
+    end
+
     private
 
     def parse(line)
       RspecLogFormatter::Analysis::Result.new(*CSV.parse_line(line, col_sep: "\t").first(8))
     end
 
-    def results
-      lines.map do |line|
-        parse(line)
-      end
-    end
 
     def lines
       File.open(@filepath, 'r').lazy

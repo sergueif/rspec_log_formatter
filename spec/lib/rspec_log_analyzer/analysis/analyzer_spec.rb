@@ -29,7 +29,6 @@ describe RspecLogFormatter::Analysis::Analyzer do
     }
   end
 
-
   it "can truncate the log file" do
     filepath = File.expand_path("../../../../fixtures/test_was_flaky_then_fixed.history", __FILE__)
     temp = Tempfile.new('fixture')

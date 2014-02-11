@@ -11,14 +11,16 @@ module RspecLogFormatter
 
       def analyze(filepath)
 
-        build_numbers, results = result_numbers(filepath)
+        history_manager = HistoryManager.new(filepath)
+        build_numbers = history_manager.builds
+        results = history_manager.results
 
         scores = []
         results.group_by(&:description).each do |description, results|
           score = Score.new(description, max_reruns: @max_reruns)
 
           results.group_by(&:build_number).each do |build_number, results|
-            next if (@builds_to_analyze && !build_numbers.last(@builds_to_analyze).include?(build_number))
+            next if (@builds_to_analyze && !build_numbers.last(@builds_to_analyze).include?(build_number.to_i))
             next if results.all?(&:failure?) #not flaky
 
 
@@ -36,31 +38,6 @@ module RspecLogFormatter
       def truncate(filepath)
         HistoryManager.new(filepath).truncate(@limit_history)
       end
-
-      private
-
-      def parse_line(line)
-        Result.new(*CSV.parse_line(line, col_sep: "\t").first(8))
-      end
-
-      def each_result(filepath, &block)
-        File.open(filepath, 'r').each_line do |line|
-          result = parse_line(line)
-          block.call(result)
-        end
-      end
-
-      def result_numbers(filepath)
-        build_numbers = []
-        results = []
-        each_result(filepath) do |result|
-          build_numbers << result.build_number
-          results << result
-        end
-        [build_numbers.uniq.sort_by{|bn| bn.to_i}, results]
-      end
-
     end
-
   end
 end

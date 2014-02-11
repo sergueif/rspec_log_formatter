@@ -3,7 +3,7 @@ module RspecLogFormatter
     class Result
       def initialize(build_number, time, outcome, description, spec_path, message=nil, klass=nil,duration=nil)
         @time = Time.parse(time)
-        @build_number = build_number
+        @build_number = (build_number || -1).to_i
         @description = description
         @outcome = outcome
         @spec_path = spec_path
