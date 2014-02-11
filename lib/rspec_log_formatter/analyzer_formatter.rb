@@ -28,6 +28,5 @@ module RspecLogFormatter
         RspecLogFormatter::Analysis::Analyzer.new(HistoryManager.new(FILENAME), @options).analyze
       )
     end
-
   end
 end

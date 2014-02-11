@@ -30,6 +30,18 @@ describe RspecLogFormatter::Analysis::Analyzer do
     }
   end
 
+  it "works for a test that only passes" do
+    result = double(description: 'desc', build_number: 1, failure?: false, success?: true, time: Time.at(0))
+    history_provider = double(builds: [1], results: [result])
+    described_class.new(history_provider, max_reruns: 3).analyze.should be_empty
+  end
+
+  it "works for a test that only fails" do
+    result = double(description: 'desc', build_number: 1, failure?: true, success?: false, time: Time.at(0))
+    history_provider = double(builds: [1], results: [result])
+    described_class.new(history_provider, max_reruns: 3).analyze.should be_empty
+  end
+
   it "can analyze only a window of builds" do
     filepath = File.expand_path("../../../../fixtures/test_was_flaky_then_fixed.history", __FILE__)
     history_provider = RspecLogFormatter::HistoryManager.new(filepath)
@@ -43,6 +55,5 @@ describe RspecLogFormatter::Analysis::Analyzer do
       fraction: 0.16666666666666666,
       failure_messages: ["ec10\n      msg10"],
     }
-
   end
 end
