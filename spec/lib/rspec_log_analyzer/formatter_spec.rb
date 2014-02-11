@@ -24,7 +24,7 @@ describe RspecLogFormatter::Formatter do
     formatter.example_passed(the_example)
     formatter.dump_summary(1,2,3,4)
 
-    File.open(RspecLogFormatter::Formatter::FILENAME, 'r').read.should == <<HEREDOC
+    File.open(RspecLogFormatter::FILENAME, 'r').read.should == <<HEREDOC
 	1969-12-31 16:00:00 -0800	passed	description_1	path_1			0.0
 2	1969-12-31 16:00:00 -0800	passed	description_1	path_1			0.0
 HEREDOC
@@ -39,7 +39,7 @@ HEREDOC
     formatter.example_passed(the_example)
     formatter.dump_summary(1,2,3,4)
 
-    File.open(RspecLogFormatter::Formatter::FILENAME, 'r').read.should == <<HEREDOC
+    File.open(RspecLogFormatter::FILENAME, 'r').read.should == <<HEREDOC
 3	1969-12-31 16:00:00 -0800	passed	description_1	path_1			0.0
 4	1969-12-31 16:00:00 -0800	passed	description_1	path_1			0.0
 HEREDOC

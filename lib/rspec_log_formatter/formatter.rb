@@ -3,7 +3,6 @@ require "rspec/core/formatters/base_formatter"
 
 module RspecLogFormatter
   class Formatter
-    FILENAME = "rspec.history"
 
     class Factory
       def initialize(options={})
