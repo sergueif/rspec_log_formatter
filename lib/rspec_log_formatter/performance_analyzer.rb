@@ -20,15 +20,17 @@ module RspecLogFormatter
 
     def write(description, filepath)
       chartkick_js = File.open(File.join(File.dirname(__FILE__), './javascripts/chartkick.js')).read
-      context = ERBContext.new({chartkick_js: chartkick_js, plots: analyze(description)})
+      data = analyze(description)
+      context = ERBContext.new({chartkick_js: chartkick_js, plots: data})
       template = ERB.new(File.open(File.join(File.dirname(__FILE__), './templates/charts.html.erb')).read)
       html = template.result(context.get_binding)
+
       File.open(filepath, 'w').write(html)
     end
 
     def analyze(test_description)
       @history_manager.results
-      .select{ |result| result.description == test_description }
+      .select{ |result| Array(test_description).include? result.description }
       .reduce({}) do |memo, result|
         memo[result.time.to_s] = result.duration
         memo

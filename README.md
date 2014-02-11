@@ -1,6 +1,6 @@
 # RspecLogFormatter
 
-TODO: Write a gem description
+Saves a history of rspec test outcomes, and provides a few tools to learn from that data (i.e. flakyness, performance regressions)
 
 ## Installation
 

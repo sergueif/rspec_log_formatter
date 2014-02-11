@@ -1,3 +1,5 @@
+require 'time'
+
 module RspecLogFormatter
   module Analysis
     class Result

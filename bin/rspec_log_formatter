@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.join(File.dirname(__FILE__), '../lib/')
+require 'rspec_log_formatter'
+require 'optparse'
+ARGV << "--help" if ARGV.empty?
+things = {}
+
+opt = OptionParser.new do |opt|
+  opt.banner = "Usage: rspec_log_formatter [options] File1[, File2, ...]"
+  opt.on('-o', '--out OUTPUT_FILE', 'The file to write html report into') do |output_filepath|
+    things[:output_filepath] = output_filepath
+  end
+  opt.on('-i', '--in INPUT_FILE', 'The file containing rspec history') do |in_filepath|
+    things[:in_filepath] = in_filepath
+  end
+
+end
+
+opt.parse!
+things = {
+  in_filepath: 'rspec.history',
+  output_filepath: 'output.html'
+}.merge(things)
+
+puts opt.help if ARGV.empty?
+
+RspecLogFormatter::PerformanceAnalyzer.new(things[:in_filepath]).write(
+  ARGV, things[:output_filepath]
+)
