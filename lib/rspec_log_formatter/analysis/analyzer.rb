@@ -10,19 +10,18 @@ module RspecLogFormatter
       end
 
       def analyze(filepath)
-
         history_manager = HistoryManager.new(filepath)
         build_numbers = history_manager.builds
-        results = history_manager.results
+        results = history_manager.results.reject do |res|
+          @builds_to_analyze && !build_numbers.last(@builds_to_analyze).include?(res.build_number.to_i)
+        end
 
         scores = []
         results.group_by(&:description).each do |description, results|
           score = Score.new(description, max_reruns: @max_reruns)
 
           results.group_by(&:build_number).each do |build_number, results|
-            next if (@builds_to_analyze && !build_numbers.last(@builds_to_analyze).include?(build_number.to_i))
             next if results.all?(&:failure?) #not flaky
-
 
             results.each{|r| score.absorb(r) }
             score.runs += results.count
