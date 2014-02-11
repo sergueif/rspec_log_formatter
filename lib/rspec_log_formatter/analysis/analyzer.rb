@@ -1,4 +1,3 @@
-require 'csv'
 
 module RspecLogFormatter
   module Analysis
@@ -35,19 +34,7 @@ module RspecLogFormatter
       end
 
       def truncate(filepath)
-        build_numbers, results = result_numbers(filepath)
-        sio = StringIO.new
-
-        File.open(filepath, 'r').each_line do |line|
-          result = parse_line(line)
-          next unless build_numbers.last(@limit_history).include? result.build_number
-          sio.puts line
-        end
-
-        sio.rewind
-        File.open(filepath, 'w') do |f|
-          f.write sio.read
-        end
+        HistoryManager.new(filepath).truncate(@limit_history)
       end
 
       private

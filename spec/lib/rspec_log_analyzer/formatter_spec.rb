@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe RspecLogFormatter::Formatter do
-
   def make_example(count, opts={})
     double({
       full_description: "description_#{count}",

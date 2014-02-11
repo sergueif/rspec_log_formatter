@@ -39,7 +39,7 @@ module RspecLogFormatter
 
     def dump_summary(_,_,_,_)
       return unless @limit_history
-      RspecLogFormatter::Analysis::Analyzer.new(limit_history: @limit_history).truncate(FILENAME)
+      RspecLogFormatter::HistoryManager.new(FILENAME).truncate(@limit_history)
     end
 
     private
