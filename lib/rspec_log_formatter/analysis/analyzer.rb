@@ -3,16 +3,16 @@ module RspecLogFormatter
   module Analysis
     class Analyzer
 
-      def initialize(options={})
+      def initialize(history_provider, options={})
         @builds_to_analyze = options[:builds_to_analyze]
         @max_reruns = options[:max_reruns]
         @limit_history = options[:limit_history]
+        @history_provider = history_provider
       end
 
-      def analyze(filepath)
-        history_manager = HistoryManager.new(filepath)
-        build_numbers = history_manager.builds
-        results = history_manager.results.reject do |res|
+      def analyze
+        build_numbers = @history_provider.builds
+        results = @history_provider.results.reject do |res|
           @builds_to_analyze && !build_numbers.last(@builds_to_analyze).include?(res.build_number.to_i)
         end
 

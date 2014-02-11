@@ -25,7 +25,7 @@ module RspecLogFormatter
 
     def dump_summary(_,_,_,_)
       @output.puts RspecLogFormatter::Analysis::PrettyPrinter.new(
-        RspecLogFormatter::Analysis::Analyzer.new(@options).analyze(FILENAME)
+        RspecLogFormatter::Analysis::Analyzer.new(HistoryManager.new(FILENAME), @options).analyze
       )
     end
 

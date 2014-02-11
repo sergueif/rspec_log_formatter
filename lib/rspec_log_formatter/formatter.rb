@@ -23,6 +23,7 @@ module RspecLogFormatter
       @clock = opts[:clock]
       @build_number = opts[:build_number]
       @limit_history = opts[:limit_history]
+      @history_manager = RspecLogFormatter::HistoryManager.new(FILENAME)
     end
 
     def example_started(example)
@@ -39,7 +40,7 @@ module RspecLogFormatter
 
     def dump_summary(_,_,_,_)
       return unless @limit_history
-      RspecLogFormatter::HistoryManager.new(FILENAME).truncate(@limit_history)
+      @history_manager.truncate(@limit_history)
     end
 
     private
