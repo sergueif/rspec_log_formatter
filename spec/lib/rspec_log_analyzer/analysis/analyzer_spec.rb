@@ -29,18 +29,6 @@ describe RspecLogFormatter::Analysis::Analyzer do
     }
   end
 
-  it "can truncate the log file" do
-    filepath = File.expand_path("../../../../fixtures/test_was_flaky_then_fixed.history", __FILE__)
-    temp = Tempfile.new('fixture')
-    FileUtils.copy(filepath, temp.path)
-    described_class.new(limit_history: 3).truncate(temp.path)
-    File.open(temp.path, 'r').read.should == <<HEREDOC
-5	2014-01-21 16:08:25 -0800	passed	desc	./spec/m1k1_spec.rb
-6	2014-01-21 16:08:25 -0800	passed	desc	./spec/m1k1_spec.rb
-7	2014-01-21 16:08:25 -0800	passed	desc	./spec/m1k1_spec.rb
-HEREDOC
-  end
-
   it "can analyze only a window of builds" do
     filepath = File.expand_path("../../../../fixtures/test_was_flaky_then_fixed.history", __FILE__)
     described_class.new(builds_to_analyze: 7).analyze(filepath).first.should == {

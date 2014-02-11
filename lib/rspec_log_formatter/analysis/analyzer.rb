@@ -33,10 +33,6 @@ module RspecLogFormatter
 
         scores.select(&:flaky?).sort.map(&:as_hash)
       end
-
-      def truncate(filepath)
-        HistoryManager.new(filepath).truncate(@limit_history)
-      end
     end
   end
 end
