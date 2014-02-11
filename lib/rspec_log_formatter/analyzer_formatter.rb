@@ -2,7 +2,7 @@ require "csv"
 require "rspec/core/formatters/base_formatter"
 
 module RspecLogFormatter
-  class AnalyzerFormatter
+  class AnalyzerFormatter < RSpec::Core::Formatters::BaseFormatter
     FILENAME = "rspec.history"
 
     class Factory
@@ -10,7 +10,7 @@ module RspecLogFormatter
         @options = options
       end
 
-      def build(output)
+      def build(output=$stdout)
         RspecLogFormatter::AnalyzerFormatter.new(output, {
           builds_to_analyze: nil,
           max_reruns: nil
@@ -19,6 +19,7 @@ module RspecLogFormatter
     end
 
     def initialize(output, options={})
+      super(output)
       @output = output
       @options = options
     end

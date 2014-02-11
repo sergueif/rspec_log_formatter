@@ -2,7 +2,7 @@ require "csv"
 require "rspec/core/formatters/base_formatter"
 
 module RspecLogFormatter
-  class Formatter
+  class Formatter < RSpec::Core::Formatters::BaseFormatter
 
     class Factory
       def initialize(options={})
@@ -10,15 +10,18 @@ module RspecLogFormatter
       end
 
       def build
-        RspecLogFormatter::Formatter.new({
+        opts = {
           clock: Time,
           build_number: ENV["BUILD_NUMBER"],
-          limit_history: nil
-        }.merge(@options))
+          limit_history: nil,
+          output: $stdout
+        }.merge(@options)
+        RspecLogFormatter::Formatter.new(opts[:output], opts)
       end
     end
 
-    def initialize(opts={})
+    def initialize(output, opts={})
+      super(output)
       @clock = opts[:clock]
       @build_number = opts[:build_number]
       @limit_history = opts[:limit_history]
