@@ -1,0 +1,11 @@
+<h1>Charts</h1>
+<head>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/highcharts/3.0.9/highcharts.js"> </script>
+  <script>
+    <%= @chartkick_js %>
+  </script>
+</head>
+<body>
+  <%= line_chart @plots %>
+</body>

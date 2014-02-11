@@ -1,0 +1,7 @@
+1	2014-01-21 16:00:00 -0800	passed	desc1	./spec/m1k1_spec.rb			1.0
+1	2014-01-22 16:00:00 -0800	passed	desc1	./spec/m1k1_spec.rb			2.0
+1	2014-01-24 16:00:00 -0800	passed	desc1	./spec/m1k1_spec.rb			3.0
+1	2014-01-24 16:00:00 -0800	passed	desc3	./spec/m1k1_spec.rb			9.0
+1	2014-01-24 16:00:00 -0800	passed	desc4	./spec/m1k1_spec.rb			7.0
+1	2014-01-29 16:00:00 -0800	passed	desc1	./spec/m1k1_spec.rb			4.0
+1	2014-01-30 16:00:00 -0800	passed	desc1	./spec/m1k1_spec.rb			5.0
