@@ -16,9 +16,9 @@ describe RspecLogFormatter::Analysis::PrettyPrinter do
 
     described_class.new(results).to_s.should == <<-TEXT.strip
 Top 2 flakiest examples
-  1) I fail a lot. -- 99% (cost: 7s)
+  1) I fail a lot. -- 99% (cost: 7.7s)
     * I'm a total failure.
-  2) I fail often. -- 70% (cost: 3s)
+  2) I fail often. -- 70% (cost: 3.3s)
     * I am a failure message.
     * I'm another failure message.
     TEXT

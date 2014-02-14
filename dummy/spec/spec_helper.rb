@@ -23,7 +23,10 @@ RSpec.configure do |config|
 
   config.formatters << RspecLogFormatter::Formatter::Factory.new.build
   config.add_formatter(:progress)
-  config.formatters << RspecLogFormatter::AnalyzerFormatter::Factory.new.build($stdout)
+  config.formatters << RspecLogFormatter::AnalyzerFormatter::Factory.new(
+    max_reruns: ENV["RSPEC_RERUN_RETRY_COUNT"].to_i,
+    builds_to_analyze: 3
+  ).build($stdout)
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

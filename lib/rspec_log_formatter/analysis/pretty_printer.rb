@@ -23,7 +23,7 @@ module RspecLogFormatter
       end
 
       def cost_segment(result)
-        " (cost: #{result[:cost].to_i}s)" if result[:cost]
+        " (cost: #{result[:cost].round(2)}s)" if result[:cost]
       end
     end
   end
