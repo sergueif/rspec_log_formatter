@@ -20,7 +20,9 @@ module RspecLogFormatter
         0.upto(max_reruns) do |i|
           sum += (fraction**i)*(1.0-fraction)*(i*@fail_duration + @pass_duration)
         end
-        sum + (fraction**(max_reruns+1.0))*@fail_duration
+        sum += (fraction**(max_reruns+1.0))*@fail_duration
+        sum -= @pass_duration
+        sum
       end
 
       def <=>(other)

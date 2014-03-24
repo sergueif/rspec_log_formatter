@@ -8,10 +8,9 @@ describe RspecLogFormatter::Analysis::Analyzer do
     described_class.new(history_provider).analyze.map{|r| r[:fraction] }.should == [
       0.75, 2.0/3.0, 0.50
     ]
-    described_class.new(history_provider, max_reruns: 0).analyze.map{|r| r[:cost] }.should == [14.0, 13.333333333333332, 12.0]
-    described_class.new(history_provider, max_reruns: 1).analyze.map{|r| r[:cost] }.should == [15.5, 15.11111111111111, 14.0]
-    described_class.new(history_provider, max_reruns: 2).analyze.map{|r| r[:cost] }.should == [18.875, 18.666666666666668, 17.0]
-    described_class.new(history_provider, max_reruns: 3).analyze.map{|r| r[:cost] }.should == [23.09375, 22.617283950617285, 19.5]
+    described_class.new(history_provider, max_reruns: 0).analyze.map{|r| r[:cost] }.should == [6.0, 5.333333333333332, 4.0]
+    described_class.new(history_provider, max_reruns: 1).analyze.map{|r| r[:cost] }.should == [7.5, 7.111111111111111, 6.0]
+    described_class.new(history_provider, max_reruns: 2).analyze.map{|r| r[:cost] }.should == [10.875, 10.666666666666668, 9.0]
   end
 
   it "works" do
